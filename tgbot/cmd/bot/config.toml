@@ -1,0 +1,12 @@
+[[config]]
+    [config.general]
+        explorerURL = "" # url of the dharitri explorer
+        gatewayURL = "" # url of the dharitri gateway
+        address = ""
+        label = "Hot wallet 1"
+        balanceThreshold = "100000000000000000000000" # 100k REWA
+        checkIntervalInMin = 30
+        notificationStep = 8 # num times to skip notifying if the balance check issue persists
+    [config.telegram]
+        groupID = ""
+        apiKey = ""
