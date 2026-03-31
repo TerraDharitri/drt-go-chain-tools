@@ -3,6 +3,7 @@ package mocks
 import (
 	"context"
 
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 	"github.com/TerraDharitri/drt-go-sdk/core"
 	"github.com/TerraDharitri/drt-go-sdk/data"
 )
@@ -14,8 +15,8 @@ type ProxyStub struct {
 		ctx context.Context,
 		address core.AddressHandler,
 		networkConfigs *data.NetworkConfig,
-	) (data.ArgCreateTransaction, error)
-	SendTransactionCalled func(ctx context.Context, tx *data.Transaction) (string, error)
+	) (transaction.FrontendTransaction, string, error)
+	SendTransactionCalled func(ctx context.Context, tx *transaction.FrontendTransaction) (string, error)
 	GetAccountCalled      func(ctx context.Context, address core.AddressHandler) (*data.Account, error)
 }
 
@@ -33,16 +34,16 @@ func (ps *ProxyStub) GetDefaultTransactionArguments(
 	ctx context.Context,
 	address core.AddressHandler,
 	networkConfigs *data.NetworkConfig,
-) (data.ArgCreateTransaction, error) {
+) (transaction.FrontendTransaction, string, error) {
 	if ps.GetDefaultTransactionArgumentsCalled != nil {
 		return ps.GetDefaultTransactionArgumentsCalled(ctx, address, networkConfigs)
 	}
 
-	return data.ArgCreateTransaction{}, nil
+	return transaction.FrontendTransaction{}, "", nil
 }
 
 // SendTransaction -
-func (ps *ProxyStub) SendTransaction(ctx context.Context, tx *data.Transaction) (string, error) {
+func (ps *ProxyStub) SendTransaction(ctx context.Context, tx *transaction.FrontendTransaction) (string, error) {
 	if ps.SendTransactionCalled != nil {
 		return ps.SendTransactionCalled(ctx, tx)
 	}

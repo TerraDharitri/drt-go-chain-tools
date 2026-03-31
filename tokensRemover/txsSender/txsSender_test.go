@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 	"github.com/TerraDharitri/drt-go-chain-tools/tokensRemover/metaDataRemover/mocks"
 	"github.com/TerraDharitri/drt-go-sdk/core"
 	"github.com/TerraDharitri/drt-go-sdk/data"
@@ -19,14 +20,14 @@ func TestTxsSender_SendTxs(t *testing.T) {
 	nonce := uint64(4)
 	currTxIndex := 0
 	roundDuration := int64(100)
-	txs := []*data.Transaction{
+	txs := []*transaction.FrontendTransaction{
 		{
-			Nonce:   nonce,
-			SndAddr: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
+			Nonce:  nonce,
+			Sender: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
 		},
 		{
-			Nonce:   nonce + 1,
-			SndAddr: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
+			Nonce:  nonce + 1,
+			Sender: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
 		},
 	}
 	proxy := &mocks.ProxyStub{
@@ -50,7 +51,7 @@ func TestTxsSender_SendTxs(t *testing.T) {
 
 			return nil, nil
 		},
-		SendTransactionCalled: func(ctx context.Context, tx *data.Transaction) (string, error) {
+		SendTransactionCalled: func(ctx context.Context, tx *transaction.FrontendTransaction) (string, error) {
 			require.Equal(t, txs[currTxIndex], tx)
 
 			currTxIndex++
@@ -84,14 +85,14 @@ func TestTxsSender_SendTxsFromIndex(t *testing.T) {
 	sendTxsCt := 0
 	nonce := uint64(4)
 	roundDuration := int64(100)
-	txs := []*data.Transaction{
+	txs := []*transaction.FrontendTransaction{
 		{
-			Nonce:   nonce,
-			SndAddr: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
+			Nonce:  nonce,
+			Sender: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
 		},
 		{
-			Nonce:   nonce + 1,
-			SndAddr: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
+			Nonce:  nonce + 1,
+			Sender: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
 		},
 	}
 	proxy := &mocks.ProxyStub{
@@ -104,7 +105,7 @@ func TestTxsSender_SendTxsFromIndex(t *testing.T) {
 			getAccountCt++
 			return &data.Account{Nonce: nonce + 1}, nil
 		},
-		SendTransactionCalled: func(ctx context.Context, tx *data.Transaction) (string, error) {
+		SendTransactionCalled: func(ctx context.Context, tx *transaction.FrontendTransaction) (string, error) {
 			sendTxsCt++
 			require.Equal(t, txs[1], tx)
 			return "txHash", nil
@@ -135,14 +136,14 @@ func TestTxsSender_SendTxsAfterRetrials(t *testing.T) {
 	getAccountCt := 0
 	nonce := uint64(4)
 	currTxIndex := 0
-	txs := []*data.Transaction{
+	txs := []*transaction.FrontendTransaction{
 		{
-			Nonce:   nonce,
-			SndAddr: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
+			Nonce:  nonce,
+			Sender: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
 		},
 		{
-			Nonce:   nonce + 1,
-			SndAddr: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
+			Nonce:  nonce + 1,
+			Sender: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
 		},
 	}
 
@@ -174,7 +175,7 @@ func TestTxsSender_SendTxsAfterRetrials(t *testing.T) {
 
 			return nil, nil
 		},
-		SendTransactionCalled: func(ctx context.Context, tx *data.Transaction) (string, error) {
+		SendTransactionCalled: func(ctx context.Context, tx *transaction.FrontendTransaction) (string, error) {
 			require.Equal(t, txs[currTxIndex], tx)
 
 			currTxIndex++
@@ -207,10 +208,10 @@ func TestTxsSender_SendTxsFailedAfterWaitingForNonce(t *testing.T) {
 
 	getAccountCt := 0
 	transactionWasSend := false
-	txs := []*data.Transaction{
+	txs := []*transaction.FrontendTransaction{
 		{
-			Nonce:   0,
-			SndAddr: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
+			Nonce:  0,
+			Sender: "drt1qyu5wthldzr8wx5c9ucg8kjagg0jfs53s8nr3zpz3hypefsdd8ssey5egf",
 		},
 	}
 
@@ -225,7 +226,7 @@ func TestTxsSender_SendTxsFailedAfterWaitingForNonce(t *testing.T) {
 			getAccountCt++
 			return nil, fmt.Errorf("error get account %d", getAccountCt)
 		},
-		SendTransactionCalled: func(ctx context.Context, tx *data.Transaction) (string, error) {
+		SendTransactionCalled: func(ctx context.Context, tx *transaction.FrontendTransaction) (string, error) {
 			transactionWasSend = true
 			return "", nil
 		},

@@ -6,10 +6,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/TerraDharitri/drt-go-sdk/data"
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 )
 
-func readTxsInput(inputFile string) ([]*data.Transaction, error) {
+func readTxsInput(inputFile string) ([]*transaction.FrontendTransaction, error) {
 	workingDir, err := os.Getwd()
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func readTxsInput(inputFile string) ([]*data.Transaction, error) {
 		return nil, err
 	}
 
-	txs := make([]*data.Transaction, 0)
+	txs := make([]*transaction.FrontendTransaction, 0)
 	err = json.Unmarshal(bytesFromJson, &txs)
 	if err != nil {
 		return nil, err

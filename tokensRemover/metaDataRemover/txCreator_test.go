@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"testing"
 
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 	"github.com/TerraDharitri/drt-go-chain-tools/tokensRemover/metaDataRemover/mocks"
 	"github.com/TerraDharitri/drt-go-sdk/core"
 	"github.com/TerraDharitri/drt-go-sdk/data"
@@ -30,17 +31,6 @@ func TestTxCreator_CreateTxs(t *testing.T) {
 	nonce := uint64(4)
 	additionalGas := uint64(500)
 
-	txs := []*data.Transaction{
-		{
-			Nonce:     nonce,
-			Signature: "signature1",
-		},
-		{
-			Nonce:     nonce + 1,
-			Signature: "signature2",
-		},
-	}
-
 	networkCfg := &data.NetworkConfig{
 		ChainID:        "1",
 		MinGasPrice:    100,
@@ -48,43 +38,47 @@ func TestTxCreator_CreateTxs(t *testing.T) {
 		GasPerDataByte: 15,
 	}
 
+	addrStr, err := addr.AddressAsBech32String()
+	require.Nil(t, err)
+
 	proxy := &mocks.ProxyStub{
 		GetNetworkConfigCalled: func(ctx context.Context) (*data.NetworkConfig, error) {
 			return networkCfg, nil
 		},
 
-		GetDefaultTransactionArgumentsCalled: func(ctx context.Context, address core.AddressHandler, networkConfigs *data.NetworkConfig) (data.ArgCreateTransaction, error) {
+		GetDefaultTransactionArgumentsCalled: func(ctx context.Context, address core.AddressHandler, networkConfigs *data.NetworkConfig) (transaction.FrontendTransaction, string, error) {
 			require.Equal(t, networkCfg, networkConfigs)
 			require.Equal(t, addr, address)
 
-			return data.ArgCreateTransaction{
+			return transaction.FrontendTransaction{
 				Nonce:    nonce,
-				SndAddr:  addr.AddressAsBech32String(),
+				Sender:   addrStr,
 				ChainID:  networkCfg.ChainID,
 				GasPrice: networkCfg.MinGasPrice,
-			}, nil
+			}, "", nil
 		},
 	}
 
 	txIdx := 0
 	txInteractor := &mocks.TransactionInteractorStub{
-		ApplySignatureAndGenerateTxCalled: func(cryptoHolder core.CryptoComponentsHolder, arg data.ArgCreateTransaction) (*data.Transaction, error) {
-			require.Equal(t, data.ArgCreateTransaction{
+		ApplyUserSignatureCalled: func(cryptoHolder core.CryptoComponentsHolder, tx *transaction.FrontendTransaction) error {
+			require.Equal(t, &transaction.FrontendTransaction{
 				Nonce:    nonce,
 				Value:    "0",
 				Data:     txsData[txIdx],
 				ChainID:  networkCfg.ChainID,
 				GasPrice: networkCfg.MinGasPrice,
 				GasLimit: 1105,
-				SndAddr:  addr.AddressAsBech32String(),
-				RcvAddr:  addr.AddressAsBech32String()}, arg)
+				Sender:   addrStr,
+				Receiver: addrStr,
+			}, tx)
 
 			defer func() {
 				nonce++
 				txIdx++
 			}()
 
-			return txs[txIdx], nil
+			return nil
 		},
 	}
 
@@ -92,5 +86,5 @@ func TestTxCreator_CreateTxs(t *testing.T) {
 	require.Nil(t, err)
 	signedTxs, err := txc.createTxs(pemData, txsData, additionalGas)
 	require.Nil(t, err)
-	require.Equal(t, signedTxs, txs)
+	require.Len(t, signedTxs, 2)
 }

@@ -1,20 +1,20 @@
 package mocks
 
 import (
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 	"github.com/TerraDharitri/drt-go-sdk/core"
-	"github.com/TerraDharitri/drt-go-sdk/data"
 )
 
 // TransactionInteractorStub -
 type TransactionInteractorStub struct {
-	ApplySignatureAndGenerateTxCalled func(cryptoHolder core.CryptoComponentsHolder, arg data.ArgCreateTransaction) (*data.Transaction, error)
+	ApplyUserSignatureCalled func(cryptoHolder core.CryptoComponentsHolder, tx *transaction.FrontendTransaction) error
 }
 
-// ApplySignatureAndGenerateTx -
-func (tis *TransactionInteractorStub) ApplySignatureAndGenerateTx(cryptoHolder core.CryptoComponentsHolder, arg data.ArgCreateTransaction) (*data.Transaction, error) {
-	if tis.ApplySignatureAndGenerateTxCalled != nil {
-		return tis.ApplySignatureAndGenerateTxCalled(cryptoHolder, arg)
+// ApplyUserSignature -
+func (tis *TransactionInteractorStub) ApplyUserSignature(cryptoHolder core.CryptoComponentsHolder, tx *transaction.FrontendTransaction) error {
+	if tis.ApplyUserSignatureCalled != nil {
+		return tis.ApplyUserSignatureCalled(cryptoHolder, tx)
 	}
 
-	return nil, nil
+	return nil
 }

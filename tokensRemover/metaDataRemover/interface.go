@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 	"github.com/TerraDharitri/drt-go-sdk/core"
 	"github.com/TerraDharitri/drt-go-sdk/data"
 )
@@ -13,11 +14,11 @@ type proxyProvider interface {
 		ctx context.Context,
 		address core.AddressHandler,
 		networkConfigs *data.NetworkConfig,
-	) (data.ArgCreateTransaction, error)
+	) (transaction.FrontendTransaction, string, error)
 }
 
 type transactionInteractor interface {
-	ApplySignatureAndGenerateTx(cryptoHolder core.CryptoComponentsHolder, arg data.ArgCreateTransaction) (*data.Transaction, error)
+	ApplyUserSignature(cryptoHolder core.CryptoComponentsHolder, tx *transaction.FrontendTransaction) error
 }
 
 type pemProvider interface {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 	"github.com/TerraDharitri/drt-go-sdk/data"
 )
 
@@ -13,7 +14,7 @@ type txsSender struct {
 	waitTimeNonceIncremented uint64
 }
 
-func (ts *txsSender) send(txs []*data.Transaction, startIdx uint64) error {
+func (ts *txsSender) send(txs []*transaction.FrontendTransaction, startIdx uint64) error {
 	numTxs := uint64(len(txs))
 	if startIdx >= numTxs {
 		return fmt.Errorf("%w, start index = %d, num txs = %d", errIndexOutOfRange, startIdx, numTxs)
@@ -33,7 +34,7 @@ func (ts *txsSender) send(txs []*data.Transaction, startIdx uint64) error {
 		"total num of txs to send", numTxs-startIdx)
 	for idx := startIdx; idx < numTxs; idx++ {
 		tx := txs[idx]
-		err = ts.waitForNonceIncremental(tx.SndAddr, tx.Nonce, ts.waitTimeNonceIncremented)
+		err = ts.waitForNonceIncremental(tx.Sender, tx.Nonce, ts.waitTimeNonceIncremented)
 		if err != nil {
 			log.Error("waitForNonceIncremental failed", "tx index", idx, "error", err)
 			return err

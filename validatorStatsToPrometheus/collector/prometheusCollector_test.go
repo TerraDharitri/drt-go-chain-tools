@@ -50,21 +50,21 @@ func TestPrometheusCollector_Describe(t *testing.T) {
 	t.Parallel()
 
 	expectedDescriptors := []string{
-		"Desc{fqName: \"tempRating_metric\", help: \"Temporary rating\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"numLeaderSuccess_metric\", help: \"Num leader success\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"numLeaderFailure_metric\", help: \"Num leader failure\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"numValidatorSuccess_metric\", help: \"Num validator success\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"numValidatorFailure_metric\", help: \"Num validator failure\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"numValidatorIgnoredSignatures_metric\", help: \"Num validator ignored signatures\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"rating_metric\", help: \"Rating\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"ratingModifier_metric\", help: \"Rating modifier\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"totalNumLeaderSuccess_metric\", help: \"Total num leader success\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"totalNumLeaderFailure_metric\", help: \"Total num leader failure\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"totalNumValidatorSuccess_metric\", help: \"Total num validator success\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"totalNumValidatorFailure_metric\", help: \"Total num validator failure\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"totalNumValidatorIgnoredSignatures_metric\", help: \"Total num validator ignored signatures\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"shardId_metric\", help: \"Shard ID\", constLabels: {chain=\"\"}, variableLabels: [blsKey]}",
-		"Desc{fqName: \"validatorStatus_metric\", help: \"Validator status\", constLabels: {chain=\"\"}, variableLabels: [blsKey status]}",
+		"Desc{fqName: \"tempRating_metric\", help: \"Temporary rating\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"numLeaderSuccess_metric\", help: \"Num leader success\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"numLeaderFailure_metric\", help: \"Num leader failure\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"numValidatorSuccess_metric\", help: \"Num validator success\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"numValidatorFailure_metric\", help: \"Num validator failure\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"numValidatorIgnoredSignatures_metric\", help: \"Num validator ignored signatures\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"rating_metric\", help: \"Rating\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"ratingModifier_metric\", help: \"Rating modifier\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"totalNumLeaderSuccess_metric\", help: \"Total num leader success\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"totalNumLeaderFailure_metric\", help: \"Total num leader failure\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"totalNumValidatorSuccess_metric\", help: \"Total num validator success\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"totalNumValidatorFailure_metric\", help: \"Total num validator failure\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"totalNumValidatorIgnoredSignatures_metric\", help: \"Total num validator ignored signatures\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"shardId_metric\", help: \"Shard ID\", constLabels: {chain=\"\"}, variableLabels: {blsKey}}",
+		"Desc{fqName: \"validatorStatus_metric\", help: \"Validator status\", constLabels: {chain=\"\"}, variableLabels: {blsKey,status}}",
 	}
 
 	promCollector, err := collector.NewPrometheusCollector(&mock.HTTPClientWrapperMock{}, "", []string{"key"})

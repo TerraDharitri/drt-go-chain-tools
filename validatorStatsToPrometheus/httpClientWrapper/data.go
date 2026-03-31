@@ -1,9 +1,9 @@
 package httpClientWrapper
 
-import "github.com/TerraDharitri/drt-go-chain/state/accounts"
+import "github.com/TerraDharitri/drt-go-chain-core/data/validator"
 
 // ValidatorStatistics defines the validator statistics api response
-type ValidatorStatistics = accounts.ValidatorApiResponse
+type ValidatorStatistics = validator.ValidatorStatistics
 
 // ValidatorStatisticsApiResponse defines the response received when calling /validator/statistics endpoint
 type ValidatorStatisticsApiResponse struct {

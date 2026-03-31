@@ -13,6 +13,7 @@ import (
 	"github.com/TerraDharitri/drt-go-chain-crypto/signing"
 	"github.com/TerraDharitri/drt-go-chain-crypto/signing/ed25519"
 	"github.com/TerraDharitri/drt-go-chain-tools/tokensRemover/metaDataRemover/config"
+	"github.com/TerraDharitri/drt-go-chain-core/data/transaction"
 	"github.com/TerraDharitri/drt-go-sdk/blockchain"
 	"github.com/TerraDharitri/drt-go-sdk/blockchain/cryptoProvider"
 	"github.com/TerraDharitri/drt-go-sdk/builders"
@@ -107,7 +108,7 @@ func (tc *txCreator) createTxs(
 	pemData *skAddress,
 	txsData [][]byte,
 	additionalGasLimit uint64,
-) ([]*data.Transaction, error) {
+) ([]*transaction.FrontendTransaction, error) {
 	transactionArguments, err := tc.getDefaultTxsArgs(pemData.address)
 	if err != nil {
 		return nil, err
@@ -116,29 +117,34 @@ func (tc *txCreator) createTxs(
 	suite := ed25519.NewEd25519()
 	keyGen := signing.NewKeyGenerator(suite)
 	holder, _ := cryptoProvider.NewCryptoComponentsHolder(keyGen, pemData.secretKey)
-	txs := make([]*data.Transaction, 0, len(txsData))
+	txs := make([]*transaction.FrontendTransaction, 0, len(txsData))
 	for _, txData := range txsData {
 		transactionArguments.Data = txData
 		transactionArguments.GasLimit = tc.computeGasLimit(uint64(len(txData))) + additionalGasLimit
-		tx, err := tc.txInteractor.ApplySignatureAndGenerateTx(holder, *transactionArguments)
+		err = tc.txInteractor.ApplyUserSignature(holder, transactionArguments)
 		if err != nil {
 			return nil, err
 		}
 
-		txs = append(txs, tx)
+		tx := *transactionArguments
+		txs = append(txs, &tx)
 		transactionArguments.Nonce++
 	}
 
 	return txs, nil
 }
 
-func (tc *txCreator) getDefaultTxsArgs(address core.AddressHandler) (*data.ArgCreateTransaction, error) {
-	transactionArguments, err := tc.proxy.GetDefaultTransactionArguments(context.Background(), address, tc.networkConfig)
+func (tc *txCreator) getDefaultTxsArgs(address core.AddressHandler) (*transaction.FrontendTransaction, error) {
+	transactionArguments, _, err := tc.proxy.GetDefaultTransactionArguments(context.Background(), address, tc.networkConfig)
 	if err != nil {
 		return nil, err
 	}
 
-	transactionArguments.RcvAddr = address.AddressAsBech32String() // send to self
+	rcvAddr, err := address.AddressAsBech32String()
+	if err != nil {
+		return nil, err
+	}
+	transactionArguments.Receiver = rcvAddr // send to self
 	transactionArguments.Value = "0"
 
 	return &transactionArguments, nil
@@ -161,7 +167,7 @@ func createOutputFileIfDoesNotExist(outFile string) error {
 	return nil
 }
 
-func saveResult(txs []*data.Transaction, outfile string) error {
+func saveResult(txs []*transaction.FrontendTransaction, outfile string) error {
 	jsonBytes, err := json.MarshalIndent(txs, "", " ")
 	if err != nil {
 		return err
