@@ -6,7 +6,7 @@ require (
 	github.com/TerraDharitri/drt-go-chain-core v1.0.2
 	github.com/TerraDharitri/drt-go-chain-crypto v1.0.1
 	github.com/TerraDharitri/drt-go-chain-logger v1.0.0
-	github.com/TerraDharitri/drt-go-chain-tools/trieTools v0.0.0
+	github.com/TerraDharitri/drt-go-chain-tools/trieTools v0.0.0-20260403051023-4e75fc02cd90
 	github.com/TerraDharitri/drt-go-sdk v0.0.2-0.20260326121441-3723cd88c705
 	github.com/pelletier/go-toml v1.9.5
 	github.com/stretchr/testify v1.11.1
@@ -67,5 +67,3 @@ require (
 	google.golang.org/protobuf v1.36.4 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/TerraDharitri/drt-go-chain-tools/trieTools => ../trieTools

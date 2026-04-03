@@ -13,6 +13,8 @@ github.com/TerraDharitri/drt-go-chain-logger v1.0.0 h1:JU7F0+DLrdV6mNXemd5RzyQcs
 github.com/TerraDharitri/drt-go-chain-logger v1.0.0/go.mod h1:5I5eJbzcpPswHIWc1oZXLzlvE3YWJ2S8nzmKZ8CeMm0=
 github.com/TerraDharitri/drt-go-chain-storage v1.0.0 h1:DwXNGYirYY8SyurtjLK4Gf6NO46aLy66SXNOTO2Q6Rk=
 github.com/TerraDharitri/drt-go-chain-storage v1.0.0/go.mod h1:hgvXbE7VeFiksTBMPdSymVHfeJH5sCocA9JR5UosOGY=
+github.com/TerraDharitri/drt-go-chain-tools/trieTools v0.0.0-20260403051023-4e75fc02cd90 h1:LLQJms9NAUzZ/fF/YNPQOw1HWZ4YXAe3hjuYo3Ycdds=
+github.com/TerraDharitri/drt-go-chain-tools/trieTools v0.0.0-20260403051023-4e75fc02cd90/go.mod h1:evvsllGIj+G2DeGu6G1aebyeWyvpBg8/2vDCNm9i42s=
 github.com/TerraDharitri/drt-go-chain-vm-common v1.0.0 h1:NdUhj5A3vdWRHiylNrG1bJINjNRt5ktbgYFYtbrb/8M=
 github.com/TerraDharitri/drt-go-chain-vm-common v1.0.0/go.mod h1:JBM8GVLE0R6LJeUSi4KwHvexGwyfB4Vb7j5tCPa9gCk=
 github.com/TerraDharitri/drt-go-sdk v0.0.2-0.20260326121441-3723cd88c705 h1:akpBDBG4xd91Lnze3QdND9zgrkSvhGIE0X2Px9xkdWU=
