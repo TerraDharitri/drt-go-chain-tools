@@ -13,11 +13,8 @@ github.com/TerraDharitri/drt-go-chain-logger v1.0.0 h1:JU7F0+DLrdV6mNXemd5RzyQcs
 github.com/TerraDharitri/drt-go-chain-logger v1.0.0/go.mod h1:5I5eJbzcpPswHIWc1oZXLzlvE3YWJ2S8nzmKZ8CeMm0=
 github.com/TerraDharitri/drt-go-chain-storage v1.0.0 h1:DwXNGYirYY8SyurtjLK4Gf6NO46aLy66SXNOTO2Q6Rk=
 github.com/TerraDharitri/drt-go-chain-storage v1.0.0/go.mod h1:hgvXbE7VeFiksTBMPdSymVHfeJH5sCocA9JR5UosOGY=
-<<<<<<< HEAD
-=======
 github.com/TerraDharitri/drt-go-chain-tools/elasticreindexer v0.0.0-20260331092157-f881fdf9f255 h1:QSkZnkbXHNBdOygHWNTWS9VyfEuuUfkze2wLpmIU70Y=
 github.com/TerraDharitri/drt-go-chain-tools/elasticreindexer v0.0.0-20260331092157-f881fdf9f255/go.mod h1:J2G74xoy009D+4VQu+O0Lwsicz46+7rahYAASvA7HDY=
->>>>>>> 11cd6c3 (trie)
 github.com/TerraDharitri/drt-go-chain-vm-common v1.0.0 h1:NdUhj5A3vdWRHiylNrG1bJINjNRt5ktbgYFYtbrb/8M=
 github.com/TerraDharitri/drt-go-chain-vm-common v1.0.0/go.mod h1:JBM8GVLE0R6LJeUSi4KwHvexGwyfB4Vb7j5tCPa9gCk=
 github.com/aead/siphash v1.0.1/go.mod h1:Nywa3cDsYNNK3gaciGTWPwHt0wlpNV15vwmswBAUSII=
