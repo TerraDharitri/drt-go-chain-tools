@@ -6,7 +6,7 @@ require (
 	github.com/TerraDharitri/drt-go-chain v0.0.0-20260317064220-836c2624b0ad
 	github.com/TerraDharitri/drt-go-chain-core v1.0.2
 	github.com/TerraDharitri/drt-go-chain-logger v1.0.0
-	github.com/TerraDharitri/drt-go-chain-tools/elasticreindexer v0.0.0
+	github.com/TerraDharitri/drt-go-chain-tools/elasticreindexer v0.0.0-20260331092157-f881fdf9f255
 	github.com/TerraDharitri/drt-go-chain-vm-common v1.0.0
 	github.com/pelletier/go-toml v1.9.5
 	github.com/stretchr/testify v1.11.1
@@ -68,4 +68,3 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/TerraDharitri/drt-go-chain-tools/elasticreindexer => ../elasticreindexer
